@@ -33,9 +33,17 @@ export default function SimpleBrowser() {
     setTimeout(() => setIsLoading(false), 500);
   };
   
+  // Get the base URL - use production URL if deployed, otherwise localhost
+  const getBaseUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.origin;
+    }
+    return 'https://mishraanubhav.me';
+  };
+  
   // Get the actual URL to display
   const displayUrl = simpleBrowserUrl.startsWith('/') 
-    ? `http://localhost:3000${simpleBrowserUrl}` 
+    ? `${getBaseUrl()}${simpleBrowserUrl}` 
     : simpleBrowserUrl;
 
   return (
