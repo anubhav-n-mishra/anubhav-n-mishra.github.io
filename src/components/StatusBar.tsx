@@ -3,6 +3,7 @@
 import React from 'react';
 import { useEditorStore } from '@/store/editor';
 import { getFileLanguage } from '@/data/files';
+import { useRouter } from 'next/navigation';
 import {
   GitBranch,
   RefreshCw,
@@ -11,13 +12,19 @@ import {
   Bell,
   Check,
   Radio,
-  Wifi,
   Braces,
+  ArrowLeftRight,
 } from 'lucide-react';
 
 export default function StatusBar() {
   const { activeFile } = useEditorStore();
+  const router = useRouter();
   const language = activeFile ? getFileLanguage(activeFile) : 'Plain Text';
+
+  const switchToSimpleView = () => {
+    localStorage.removeItem('ide-experience');
+    router.push('/portfolio');
+  };
 
   return (
     <footer className="flex items-center justify-between h-[22px] bg-[var(--bg-statusbar)] text-[11px] sm:text-[12px] text-white select-none flex-shrink-0 overflow-hidden">
@@ -50,6 +57,16 @@ export default function StatusBar() {
 
       {/* Right Side */}
       <div className="flex items-center h-full overflow-hidden">
+        {/* Switch View Button */}
+        <button
+          onClick={switchToSimpleView}
+          className="flex items-center gap-1 px-1.5 sm:px-2 h-full bg-[#6366f1] hover:bg-[#818cf8] cursor-pointer transition-colors text-white"
+          title="Switch to Simple Portfolio View"
+        >
+          <ArrowLeftRight size={14} />
+          <span className="hidden sm:inline text-[11px]">Switch View</span>
+        </button>
+        
         {/* Line & Column */}
         <div className="hidden md:flex px-2 h-full items-center hover:bg-white/10 cursor-pointer transition-colors whitespace-nowrap">
           Ln 1, Col 1

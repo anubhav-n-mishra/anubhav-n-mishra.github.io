@@ -5,25 +5,27 @@ import IDELayout from '@/components/IDELayout';
 import LandingPage from '@/components/LandingPage';
 
 export default function Home() {
-  const [showLanding, setShowLanding] = useState(true);
+  const [view, setView] = useState<'landing' | 'ide' | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check if user has already made a choice
-    const userChoice = localStorage.getItem('ide-experience');
-    if (userChoice === 'ide') {
-      setShowLanding(false);
-    }
+    // Always show landing page first - no auto-redirect based on saved choice
+    // This allows users to switch between views easily
+    setView('landing');
   }, []);
 
-  if (!mounted) {
+  const handleSelectIDE = () => {
+    localStorage.setItem('ide-experience', 'ide');
+    setView('ide');
+  };
+
+  if (!mounted || view === null) {
     return null;
   }
 
-  if (showLanding) {
-    return <LandingPage />;
+  if (view === 'landing') {
+    return <LandingPage onSelectIDE={handleSelectIDE} />;
   }
 
   return <IDELayout />;

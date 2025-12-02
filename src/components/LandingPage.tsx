@@ -4,7 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Code2, Monitor, Smartphone, ArrowRight, Sparkles } from 'lucide-react';
 
-export default function LandingPage() {
+interface LandingPageProps {
+  onSelectIDE?: () => void;
+}
+
+export default function LandingPage({ onSelectIDE }: LandingPageProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -29,16 +33,6 @@ export default function LandingPage() {
     
     checkMobile();
     
-    // Check if user has already made a choice
-    const userChoice = localStorage.getItem('ide-experience');
-    if (userChoice === 'ide') {
-      router.push('/');
-      return;
-    } else if (userChoice === 'simple') {
-      router.push('/portfolio');
-      return;
-    }
-    
     // Show content after a brief delay
     setTimeout(() => setShowContent(true), 300);
   }, [router]);
@@ -46,8 +40,12 @@ export default function LandingPage() {
   const handleChoice = (choice: 'ide' | 'simple') => {
     localStorage.setItem('ide-experience', choice);
     if (choice === 'ide') {
-      // Stay on this page but show IDE
-      window.location.reload();
+      // Use the callback if provided, otherwise reload
+      if (onSelectIDE) {
+        onSelectIDE();
+      } else {
+        window.location.reload();
+      }
     } else {
       router.push('/portfolio');
     }

@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Github, Linkedin, Mail, ExternalLink, Code, Database, Globe, 
   ChevronDown, ChevronLeft, ChevronRight, Menu, X, Sun, Moon,
   User, GraduationCap, Code2, Heart, MapPin, Download, Phone,
-  Award, Zap, Send, Sparkles, Twitter
+  Award, Zap, Send, Sparkles, Twitter, Monitor
 } from 'lucide-react';
 import './portfolio.css';
 
@@ -129,12 +130,18 @@ const achievements = [
 ];
 
 export default function PortfolioPage() {
+  const router = useRouter();
   const [darkMode, setDarkMode] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState('languages');
   const [currentSlide, setCurrentSlide] = useState(0);
   const heroCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  const switchToIDEView = () => {
+    localStorage.removeItem('ide-experience');
+    router.push('/');
+  };
 
   // Theme effect
   useEffect(() => {
@@ -328,6 +335,14 @@ export default function PortfolioPage() {
           </nav>
 
           <div className="header-actions">
+            <button 
+              onClick={switchToIDEView} 
+              className="ide-toggle"
+              title="Switch to IDE View"
+            >
+              <Monitor size={18} />
+              <span className="ide-toggle-text">IDE View</span>
+            </button>
             <button onClick={() => setDarkMode(!darkMode)} className="theme-toggle">
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>

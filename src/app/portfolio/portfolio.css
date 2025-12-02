@@ -178,6 +178,36 @@ html:has(.portfolio-app) {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.ide-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--portfolio-accent-gradient);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all var(--portfolio-transition-fast);
+}
+
+.ide-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.ide-toggle-text {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .ide-toggle-text {
+    display: inline;
+  }
+}
+
 .menu-toggle {
   display: none;
 }
