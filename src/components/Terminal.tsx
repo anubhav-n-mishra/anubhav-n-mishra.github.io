@@ -217,7 +217,7 @@ export default function Terminal() {
           { type: 'info', content: `  📧 Email:    ${contact.email}` },
           { type: 'info', content: `  💻 GitHub:   github.com/anubhav-n-mishra` },
           { type: 'info', content: `  💼 LinkedIn: linkedin.com/in/anubhav-mishra0` },
-          { type: 'info', content: `  🐦 Twitter:  @anubhav_writes\n` },
+
         ];
       
       case 'github':

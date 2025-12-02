@@ -634,7 +634,6 @@ export const portfolioData = {
     email: "anubhav09.work@gmail.com",
     github: "https://github.com/anubhav-n-mishra",
     linkedin: "https://linkedin.com/in/anubhav-mishra0",
-    twitter: "https://twitter.com/anubhav_writes",
   },
   
   skills: {

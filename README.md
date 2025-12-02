@@ -95,7 +95,6 @@ src/
 - **Email**: anubhav.mishra@outlook.com
 - **GitHub**: [github.com/anubhav-n-mishra](https://github.com/anubhav-n-mishra)
 - **LinkedIn**: [linkedin.com/in/anubhav-mishra0](https://linkedin.com/in/anubhav-mishra0)
-- **Twitter**: [@anubhav_writes](https://twitter.com/anubhav_writes)
 
 ---
 

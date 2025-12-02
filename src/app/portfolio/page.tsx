@@ -6,7 +6,7 @@ import {
   Github, Linkedin, Mail, ExternalLink, Code, Database, Globe, 
   ChevronDown, ChevronLeft, ChevronRight, Menu, X, Sun, Moon,
   User, GraduationCap, Code2, Heart, MapPin, Download, Phone,
-  Award, Zap, Send, Sparkles, Twitter, Monitor
+  Award, Zap, Send, Sparkles, Monitor
 } from 'lucide-react';
 import './portfolio.css';
 
@@ -424,10 +424,7 @@ export default function PortfolioPage() {
                 <Mail size={20} />
                 <span className="social-tooltip">Email</span>
               </a>
-              <a href="https://twitter.com/anubhav_writes" className="hero-social" target="_blank" rel="noopener noreferrer">
-                <Twitter size={20} />
-                <span className="social-tooltip">Twitter</span>
-              </a>
+
             </div>
           </div>
         </div>
@@ -674,9 +671,7 @@ export default function PortfolioPage() {
                 <a href="https://linkedin.com/in/anubhav-mishra0" className="social-link" target="_blank" rel="noopener noreferrer">
                   <Linkedin size={20} />
                 </a>
-                <a href="https://twitter.com/anubhav_writes" className="social-link" target="_blank" rel="noopener noreferrer">
-                  <Twitter size={20} />
-                </a>
+
               </div>
 
               <button className="resume-download-btn" onClick={() => window.open('/Anubhav_Mishra.pdf', '_blank')}>

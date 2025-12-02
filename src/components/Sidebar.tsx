@@ -22,7 +22,6 @@ import {
   ExternalLink,
   Github,
   Linkedin,
-  Twitter,
   Mail,
   MoreHorizontal,
   Ellipsis,
@@ -690,9 +689,7 @@ const AccountPanel: React.FC = () => {
           <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-[var(--bg-tertiary)] rounded-full hover:bg-[var(--bg-hover)] transition-colors">
             <Linkedin size={20} className="text-[#0077b5]" />
           </a>
-          <a href={contact.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-[var(--bg-tertiary)] rounded-full hover:bg-[var(--bg-hover)] transition-colors">
-            <Twitter size={20} className="text-[#1da1f2]" />
-          </a>
+
           <a href={`mailto:${contact.email}`} className="p-2 bg-[var(--bg-tertiary)] rounded-full hover:bg-[var(--bg-hover)] transition-colors">
             <Mail size={20} className="text-[var(--text-primary)]" />
           </a>

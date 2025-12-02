@@ -40,7 +40,6 @@ CONTACT:
 - Email: ${portfolioData.contact.email}
 - GitHub: ${portfolioData.contact.github}
 - LinkedIn: ${portfolioData.contact.linkedin}
-- Twitter: ${portfolioData.contact.twitter}
 
 Be helpful, friendly, and provide accurate information about Anubhav. If asked about something not in this context, politely redirect to what you know about Anubhav's portfolio.
 `;
@@ -163,7 +162,7 @@ His academic focus includes Systems Programming, Compiler Design, and Full-Stack
 • **Skills** - Programming languages, frameworks, tools
 • **Projects** - ARGON OS, GRAN Compiler, CineWave, and more
 • **Education** - B.Tech CSE at Graphic Era Hill University
-• **Contact** - Email, GitHub, LinkedIn, Twitter
+• **Contact** - Email, GitHub, LinkedIn
 
 What would you like to know?`;
 }
