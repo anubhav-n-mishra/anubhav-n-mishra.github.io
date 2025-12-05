@@ -93,7 +93,7 @@ export default function IDELayout() {
   }
 
   return (
-    <div 
+    <div
       className={cn(
         "h-screen w-screen flex flex-col overflow-hidden",
         theme === 'light' && 'light',
@@ -104,17 +104,17 @@ export default function IDELayout() {
     >
       {/* Title Bar */}
       <TitleBar />
-      
+
       {/* Main Content */}
       <main className="flex-1 flex overflow-hidden min-h-0">
         {/* Activity Bar */}
         <ActivityBar />
-        
+
         {/* Sidebar */}
         {sidebarOpen && (
           <>
             {isMobile && (
-              <div 
+              <div
                 className="fixed inset-0 bg-black/50 z-30"
                 style={{ top: '35px', bottom: '22px' }}
                 onClick={toggleSidebar}
@@ -127,12 +127,12 @@ export default function IDELayout() {
             </div>
           </>
         )}
-        
+
         {/* Editor + Terminal Area */}
         <div className="flex-1 flex flex-col min-w-0 min-h-0">
           <div className="flex-1 flex min-h-0 flex-col md:flex-row">
             <div className={cn(
-              "flex-1 flex flex-col min-w-0", 
+              "flex-1 flex flex-col min-w-0",
               simpleBrowserOpen && !isMobile && "md:w-1/2"
             )}>
               <Editor />
@@ -149,14 +149,14 @@ export default function IDELayout() {
           <Terminal />
         </div>
       </main>
-      
+
       {/* Status Bar */}
       <StatusBar />
-      
+
       {/* Command Palette Modal */}
-      <CommandPalette 
-        isOpen={commandPaletteOpen} 
-        onClose={() => setCommandPaletteOpen(false)} 
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
       />
     </div>
   );
