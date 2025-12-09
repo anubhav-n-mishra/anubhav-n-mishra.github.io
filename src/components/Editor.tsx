@@ -22,7 +22,7 @@ import {
 
 const FileIcon: React.FC<{ filename: string; className?: string }> = ({ filename, className }) => {
   const ext = filename.split('.').pop()?.toLowerCase();
-  
+
   const iconMap: Record<string, { icon: React.ElementType; color: string }> = {
     'md': { icon: FileText, color: '#519aba' },
     'json': { icon: FileJson, color: '#cbcb41' },
@@ -40,7 +40,7 @@ const FileIcon: React.FC<{ filename: string; className?: string }> = ({ filename
 
   const iconInfo = iconMap[ext || ''] || { icon: FileText, color: '#6d8086' };
   const Icon = iconInfo.icon;
-  
+
   return <Icon size={14} className={className} style={{ color: iconInfo.color }} />;
 };
 
@@ -48,10 +48,10 @@ const FileIcon: React.FC<{ filename: string; className?: string }> = ({ filename
 const highlightSyntax = (content: string, filename: string): React.ReactNode[] => {
   const ext = filename.split('.').pop()?.toLowerCase();
   const lines = content.split('\n');
-  
+
   return lines.map((line, idx) => {
     let highlighted = line;
-    
+
     // Basic syntax highlighting patterns
     if (['ts', 'tsx', 'js', 'jsx'].includes(ext || '')) {
       // Keywords
@@ -161,8 +161,8 @@ const highlightSyntax = (content: string, filename: string): React.ReactNode[] =
     }
 
     return (
-      <div 
-        key={idx} 
+      <div
+        key={idx}
         className="code-line flex hover:bg-[var(--bg-hover)]"
         dangerouslySetInnerHTML={{ __html: highlighted || '&nbsp;' }}
       />
@@ -173,33 +173,33 @@ const highlightSyntax = (content: string, filename: string): React.ReactNode[] =
 export default function Editor() {
   const { tabs, activeFile, closeFile, setActiveFile, userFiles, updateFileContent } = useEditorStore();
   const { showLineNumbers, showMinimap, fontSize } = useThemeStore();
-  
+
   // Get content - check user files first, then default files
   const getContent = useCallback((filename: string | null) => {
     if (!filename) return '';
     if (userFiles[filename] !== undefined) return userFiles[filename];
     return getFileContent(filename);
   }, [userFiles]);
-  
+
   const content = getContent(activeFile);
   const language = activeFile ? getFileLanguage(activeFile) : 'Plain Text';
   const lineCount = Math.max(content.split('\n').length, 20);
-  
+
   const [editableContent, setEditableContent] = useState(content);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   // Update editable content when active file changes
   React.useEffect(() => {
     setEditableContent(getContent(activeFile));
   }, [activeFile, getContent]);
-  
+
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditableContent(e.target.value);
     if (activeFile) {
       updateFileContent(activeFile, e.target.value);
     }
   };
-  
+
   const isUserFile = activeFile ? userFiles[activeFile] !== undefined : false;
   const isDirty = tabs.find(t => t.name === activeFile)?.isDirty || false;
 
@@ -256,8 +256,8 @@ export default function Editor() {
               onClick={() => setActiveFile(tab.name)}
               className={cn(
                 "group flex items-center gap-2 px-3 h-[35px] cursor-pointer min-w-max text-[13px] border-t-2 shrink-0",
-                tab.isActive 
-                  ? "bg-[var(--bg-editor)] text-[var(--text-primary)] border-t-[var(--accent-primary)]" 
+                tab.isActive
+                  ? "bg-[var(--bg-editor)] text-[var(--text-primary)] border-t-[var(--accent-primary)]"
                   : "bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] border-t-transparent"
               )}
             >
@@ -278,7 +278,7 @@ export default function Editor() {
             </div>
           ))}
         </div>
-        
+
         {/* Tab Actions */}
         <div className="flex items-center px-1 gap-0.5 h-full border-l border-[var(--border-color)] bg-[var(--bg-secondary)]">
           <button className="p-1.5 hover:bg-[var(--bg-hover)] rounded text-[var(--text-muted)] hover:text-[var(--text-primary)]" title="Split Editor Right">
@@ -320,7 +320,7 @@ export default function Editor() {
               ))}
             </div>
           )}
-          
+
           {/* Code Content - Editable */}
           <div className="flex-1 relative min-h-full">
             {isEditing || isUserFile ? (
@@ -334,7 +334,7 @@ export default function Editor() {
                 spellCheck={false}
               />
             ) : (
-              <div 
+              <div
                 className="py-0 pl-2 leading-6 overflow-x-auto cursor-text min-h-full"
                 onClick={() => setIsEditing(true)}
               >
@@ -349,7 +349,7 @@ export default function Editor() {
         {/* Minimap - Hidden on mobile */}
         {showMinimap && (
           <div className="hidden md:block absolute right-0 top-0 w-[100px] h-full bg-[var(--bg-editor)] border-l border-[var(--border-color)] overflow-hidden pointer-events-none">
-            <div 
+            <div
               className="text-[2px] leading-[3px] p-2 opacity-60"
               style={{ fontFamily: 'monospace' }}
             >
@@ -360,7 +360,7 @@ export default function Editor() {
               ))}
             </div>
             {/* Viewport indicator */}
-            <div 
+            <div
               className="absolute right-1 top-0 w-[90px] h-[30px] bg-[var(--bg-hover)] border border-[var(--border-color)] rounded-sm"
             />
           </div>

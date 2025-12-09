@@ -1,210 +1,260 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Code2, Monitor, Smartphone, ArrowRight, Sparkles, Terminal, FolderTree, Palette, Layout, Zap } from 'lucide-react';
+"use client"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
+import {
+  Code2,
+  Monitor,
+  Smartphone,
+  ArrowRight,
+  Sparkles,
+  Terminal,
+  FolderTree,
+  Palette,
+  Layout,
+  Zap,
+  Globe,
+} from "lucide-react"
 
 interface LandingPageProps {
-  onSelectIDE?: () => void;
+  onSelectIDE?: () => void
 }
 
 export default function LandingPage({ onSelectIDE }: LandingPageProps) {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [hoveredOption, setHoveredOption] = useState<"ide" | "simple" | null>(null)
 
   useEffect(() => {
-    setMounted(true);
-    
-    // Check if mobile
+    setMounted(true)
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      setIsMobile(mobile);
-      
-      // Auto-redirect mobile users to portfolio
+      const mobile =
+        window.innerWidth < 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      setIsMobile(mobile)
       if (mobile) {
         setTimeout(() => {
-          router.push('/portfolio');
-        }, 1500);
+          router.push("/portfolio")
+        }, 2000)
       }
-    };
-    
-    checkMobile();
-    
-    // Show content after a brief delay
-    setTimeout(() => setShowContent(true), 300);
-  }, [router]);
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [router])
 
-  const handleChoice = (choice: 'ide' | 'simple') => {
-    localStorage.setItem('ide-experience', choice);
-    if (choice === 'ide') {
-      // Use the callback if provided, otherwise reload
+  const handleChoice = (choice: "ide" | "simple") => {
+    localStorage.setItem("ide-experience", choice)
+    if (choice === "ide") {
       if (onSelectIDE) {
-        onSelectIDE();
+        onSelectIDE()
       } else {
-        window.location.reload();
+        window.location.reload()
       }
     } else {
-      router.push('/portfolio');
+      router.push("/portfolio")
     }
-  };
+  }
 
-  if (!mounted) return null;
+  if (!mounted) return null
 
-  // Mobile loading screen
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="text-center px-6">
-          <Smartphone className="w-16 h-16 text-[#58a6ff] mx-auto mb-6 animate-bounce" />
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 text-center"
+        >
+          <Smartphone className="w-16 h-16 text-blue-500 mx-auto mb-6" />
           <h1 className="text-2xl font-bold text-white mb-3">Mobile Detected</h1>
-          <p className="text-[#8b949e] mb-6">Redirecting you to the mobile-optimized portfolio...</p>
+          <p className="text-gray-400 mb-8">Optimizing experience for your device...</p>
           <div className="flex justify-center gap-2">
-            <div className="w-2 h-2 bg-[#58a6ff] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-            <div className="w-2 h-2 bg-[#58a6ff] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-            <div className="w-2 h-2 bg-[#58a6ff] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="w-2 h-2 bg-blue-500 rounded-full"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }}
+              />
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center overflow-hidden relative">
-      {/* Subtle gradient orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#58a6ff]/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#a371f7]/10 rounded-full blur-3xl" />
-      
-      {/* Animated stars */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(100)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-[2px] h-[2px] bg-white rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.2,
-              animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
-            }}
-          />
-        ))}
+    <div className="min-h-screen bg-[#050505] text-white overflow-x-hidden relative selection:bg-blue-500/30">
+      {/* Background Effects */}
+      <div className="absolute inset-0 z-0 fixed">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] animate-pulse" />
+        <div
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse"
+          style={{ animationDelay: "2s" }}
+        />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
       </div>
 
-      <style jsx>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.2); }
-        }
-      `}</style>
+      <div className="relative z-10 container mx-auto px-4 flex flex-col items-center justify-center min-h-screen py-12">
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-12 max-w-2xl"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+            className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 flex items-center justify-center shadow-2xl shadow-blue-500/10"
+          >
+            <Code2 className="w-10 h-10 text-blue-400" />
+          </motion.div>
 
-      <div className={`relative z-10 text-center px-6 max-w-4xl mx-auto transition-all duration-1000 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        {/* Logo */}
-        <div className="mb-8 flex items-center justify-center">
-          <div className="p-4 bg-[#21262d] rounded-2xl border border-[#30363d]">
-            <Code2 className="w-12 h-12 text-[#58a6ff]" />
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400">
+            Anubhav Mishra
+          </h1>
+
+          <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed">
+            Full-Stack Developer & Systems Engineer
+          </p>
+        </motion.div>
+
+        {/* Cards Container */}
+        <div className="w-full max-w-4xl px-4 mb-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* IDE Option */}
+            <motion.button
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              onClick={() => handleChoice("ide")}
+              onMouseEnter={() => setHoveredOption("ide")}
+              onMouseLeave={() => setHoveredOption(null)}
+              className="group relative text-left"
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 rounded-3xl blur-xl transition-opacity duration-500 ${hoveredOption === "ide" ? "opacity-100" : "opacity-0"}`}
+              />
+              <div className="relative bg-[#0a0a0a] border border-gray-800 hover:border-blue-500/50 rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden flex flex-col h-full">
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent transition-opacity duration-500 ${hoveredOption === "ide" ? "opacity-100" : "opacity-0"}`}
+                />
+
+                <div className="relative z-10 flex flex-col h-full gap-4">
+                  <div className="flex justify-between items-start">
+                    <div className="p-3 bg-gray-900 rounded-xl border border-gray-800 group-hover:border-blue-500/30 group-hover:bg-blue-500/10 transition-colors">
+                      <Monitor className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <ArrowRight
+                      className={`w-5 h-5 text-blue-400 transition-transform duration-300 ${hoveredOption === "ide" ? "translate-x-1" : ""}`}
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                      VS Code Experience
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed text-sm">
+                      Immersive development environment simulation. Explore my code and terminal just like a real IDE.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-auto pt-3">
+                    <Tag icon={Terminal} label="Terminal" color="blue" />
+                    <Tag icon={FolderTree} label="File System" color="cyan" />
+                    <Tag icon={Zap} label="Interactive" color="yellow" />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
+
+            {/* Classic Option */}
+            <motion.button
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              onClick={() => handleChoice("simple")}
+              onMouseEnter={() => setHoveredOption("simple")}
+              onMouseLeave={() => setHoveredOption(null)}
+              className="group relative text-left"
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-3xl blur-xl transition-opacity duration-500 ${hoveredOption === "simple" ? "opacity-100" : "opacity-0"}`}
+              />
+              <div className="relative bg-[#0a0a0a] border border-gray-800 hover:border-purple-500/50 rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/10 overflow-hidden flex flex-col h-full">
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent transition-opacity duration-500 ${hoveredOption === "simple" ? "opacity-100" : "opacity-0"}`}
+                />
+
+                <div className="relative z-10 flex flex-col h-full gap-4">
+                  <div className="flex justify-between items-start">
+                    <div className="p-3 bg-gray-900 rounded-xl border border-gray-800 group-hover:border-purple-500/30 group-hover:bg-purple-500/10 transition-colors">
+                      <Layout className="w-6 h-6 text-purple-400" />
+                    </div>
+                    <ArrowRight
+                      className={`w-5 h-5 text-purple-400 transition-transform duration-300 ${hoveredOption === "simple" ? "translate-x-1" : ""}`}
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                      Classic Portfolio
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed text-sm">
+                      A modern, smooth-scrolling visual journey. Perfect for recruiters and visitors.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-auto pt-3">
+                    <Tag icon={Sparkles} label="Animated" color="purple" />
+                    <Tag icon={Palette} label="Modern UI" color="pink" />
+                    <Tag icon={Globe} label="Responsive" color="indigo" />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
           </div>
         </div>
 
-        {/* Title */}
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight">
-          <span className="text-white">Anubhav </span>
-          <span className="text-[#58a6ff]">Mishra</span>
-        </h1>
-        <p className="text-xl text-[#8b949e] mb-16">Full-Stack Developer & Systems Engineer</p>
-
-        {/* Question */}
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-medium text-[#c9d1d9]">
-            How would you like to explore my portfolio?
-          </h2>
-        </div>
-
-        {/* Options */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {/* IDE Experience Option */}
-          <button
-            onClick={() => handleChoice('ide')}
-            onMouseEnter={() => setHoveredOption('ide')}
-            onMouseLeave={() => setHoveredOption(null)}
-            className={`group relative p-8 rounded-2xl border-2 transition-all duration-300 text-left ${
-              hoveredOption === 'ide' 
-                ? 'border-[#58a6ff] bg-[#58a6ff]/5 scale-[1.02] shadow-xl shadow-[#58a6ff]/10' 
-                : 'border-[#30363d] bg-[#0d1117] hover:border-[#58a6ff]/50 hover:bg-[#161b22]'
-            }`}
-          >
-            <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-colors ${hoveredOption === 'ide' ? 'bg-[#58a6ff]/20' : 'bg-[#21262d]'}`}>
-              <Monitor className="w-7 h-7 text-[#58a6ff]" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">VS Code Experience</h3>
-            <p className="text-[#8b949e] text-sm leading-relaxed mb-6">
-              Interactive IDE with terminal, file explorer, and code editor. Best for developers.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#7ee787]/10 text-[#7ee787] border border-[#7ee787]/20">
-                <Terminal size={12} />
-                Terminal
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#a371f7]/10 text-[#a371f7] border border-[#a371f7]/20">
-                <FolderTree size={12} />
-                Explorer
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#58a6ff]/10 text-[#58a6ff] border border-[#58a6ff]/20">
-                <Zap size={12} />
-                Extensions
-              </span>
-            </div>
-            <div className={`absolute bottom-8 right-8 transition-all duration-300 ${hoveredOption === 'ide' ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
-              <ArrowRight className="w-5 h-5 text-[#58a6ff]" />
-            </div>
-          </button>
-
-          {/* Simple Portfolio Option */}
-          <button
-            onClick={() => handleChoice('simple')}
-            onMouseEnter={() => setHoveredOption('simple')}
-            onMouseLeave={() => setHoveredOption(null)}
-            className={`group relative p-8 rounded-2xl border-2 transition-all duration-300 text-left ${
-              hoveredOption === 'simple' 
-                ? 'border-[#a371f7] bg-[#a371f7]/5 scale-[1.02] shadow-xl shadow-[#a371f7]/10' 
-                : 'border-[#30363d] bg-[#0d1117] hover:border-[#a371f7]/50 hover:bg-[#161b22]'
-            }`}
-          >
-            <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-colors ${hoveredOption === 'simple' ? 'bg-[#a371f7]/20' : 'bg-[#21262d]'}`}>
-              <Layout className="w-7 h-7 text-[#a371f7]" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">Classic Portfolio</h3>
-            <p className="text-[#8b949e] text-sm leading-relaxed mb-6">
-              Beautiful animated portfolio with smooth scrolling. Great for everyone.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#f778ba]/10 text-[#f778ba] border border-[#f778ba]/20">
-                <Sparkles size={12} />
-                Animations
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#ffa657]/10 text-[#ffa657] border border-[#ffa657]/20">
-                <Palette size={12} />
-                Modern UI
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#79c0ff]/10 text-[#79c0ff] border border-[#79c0ff]/20">
-                <Smartphone size={12} />
-                Responsive
-              </span>
-            </div>
-            <div className={`absolute bottom-8 right-8 transition-all duration-300 ${hoveredOption === 'simple' ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
-              <ArrowRight className="w-5 h-5 text-[#a371f7]" />
-            </div>
-          </button>
-        </div>
-
-        {/* Footer text */}
-        <p className="mt-10 text-sm text-[#484f58]">
-          You can switch between views anytime
-        </p>
+        {/* Footer Text */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="text-sm text-gray-600 font-medium tracking-wide uppercase"
+        >
+          Select an interface to begin
+        </motion.p>
       </div>
     </div>
-  );
+  )
+}
+
+function Tag({
+  icon: Icon,
+  label,
+  color,
+}: { icon: any; label: string; color: "blue" | "cyan" | "yellow" | "purple" | "pink" | "indigo" }) {
+  const colors = {
+    blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    cyan: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+    purple: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    pink: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+    indigo: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+  }
+
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${colors[color]}`}
+    >
+      <Icon size={12} />
+      {label}
+    </span>
+  )
 }

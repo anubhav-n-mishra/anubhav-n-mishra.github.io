@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Github, Linkedin, Mail, ExternalLink, Code, Database, Globe, 
+import {
+  Github, Linkedin, Mail, ExternalLink, Code, Database, Globe,
   ChevronDown, ChevronLeft, ChevronRight, Menu, X, Sun, Moon,
   User, GraduationCap, Code2, Heart, MapPin, Download, Phone,
   Award, Zap, Send, Sparkles, Monitor
@@ -139,6 +139,11 @@ export default function PortfolioPage() {
   const heroCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const switchToIDEView = () => {
+    // Clean up portfolio attributes before navigation
+    document.documentElement.removeAttribute('data-theme');
+    document.body.removeAttribute('data-theme');
+    window.scrollTo(0, 0);
+
     localStorage.removeItem('ide-experience');
     router.push('/');
   };
@@ -309,8 +314,8 @@ export default function PortfolioPage() {
   };
 
   const getAllSkills = () => Object.values(skillCategories).flatMap(cat => cat.skills);
-  const filteredSkills = activeCategory === 'all' 
-    ? getAllSkills() 
+  const filteredSkills = activeCategory === 'all'
+    ? getAllSkills()
     : skillCategories[activeCategory as keyof typeof skillCategories]?.skills || [];
 
   return (
@@ -321,7 +326,7 @@ export default function PortfolioPage() {
           <div className="logo">
             <span className="logo-text gradient-text">AM</span>
           </div>
-          
+
           <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
             <ul className="nav-list">
               {['Hero', 'About', 'Skills', 'Projects', 'Contact'].map(item => (
@@ -335,8 +340,8 @@ export default function PortfolioPage() {
           </nav>
 
           <div className="header-actions">
-            <button 
-              onClick={switchToIDEView} 
+            <button
+              onClick={switchToIDEView}
               className="ide-toggle"
               title="Switch to IDE View"
             >
@@ -356,7 +361,7 @@ export default function PortfolioPage() {
       {/* Hero Section */}
       <section id="hero" className="hero">
         <canvas ref={heroCanvasRef} className="hero-canvas" />
-        
+
         <div className="hero-background">
           <div className="gradient-overlay"></div>
           <div className="gradient-orb orb-1"></div>
@@ -382,7 +387,7 @@ export default function PortfolioPage() {
                 <div className="profile-glow"></div>
               </div>
             </div>
-            
+
             <h1 className="hero-title">
               Hi, I&apos;m <span className="gradient-text">Anubhav Mishra</span>
             </h1>
@@ -390,7 +395,7 @@ export default function PortfolioPage() {
               <span className="typing-text">Full-Stack Developer &amp; Systems Engineer</span>
             </h2>
             <p className="hero-description">
-              Final-Year B.Tech CSE Student at Graphic Era Hill University. 
+              Final-Year B.Tech CSE Student at Graphic Era Hill University.
               Passionate about building operating systems, compilers, and scalable web applications.
               Currently exploring distributed systems, backend architectures, and full-stack engineering.
             </p>
@@ -404,7 +409,7 @@ export default function PortfolioPage() {
                 <span>View My Work</span>
                 <div className="btn-shine"></div>
               </button>
-              <a href="/Anubhav_Mishra.pdf" download className="btn btn-secondary" style={{display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none'}}>
+              <a href="/Anubhav_Mishra.pdf" download className="btn btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
                 <Download size={18} />
                 <span>Download Resume</span>
                 <div className="btn-shine"></div>
@@ -440,20 +445,20 @@ export default function PortfolioPage() {
           <div className="section-orb orb-1"></div>
           <div className="section-orb orb-2"></div>
         </div>
-        
+
         <div className="container">
           <h2 className="section-title">About Me</h2>
-          
+
           <div className="about-content">
             <div className="about-text">
               <div className="about-card main-card">
                 <div className="card-icon"><User size={24} /></div>
                 <h3>Who I Am</h3>
                 <p>
-                  I&apos;m a final-year Computer Science student driven by curiosity and a love for 
-                  turning ideas into digital solutions. From building operating systems to crafting 
-                  full-stack web applications, I enjoy tackling complex problems and creating 
-                  impactful software. My focus is on systems programming, compiler design, and 
+                  I&apos;m a final-year Computer Science student driven by curiosity and a love for
+                  turning ideas into digital solutions. From building operating systems to crafting
+                  full-stack web applications, I enjoy tackling complex problems and creating
+                  impactful software. My focus is on systems programming, compiler design, and
                   modern web development.
                 </p>
               </div>
@@ -498,7 +503,7 @@ export default function PortfolioPage() {
           <div className="section-orb orb-1"></div>
           <div className="section-orb orb-2"></div>
         </div>
-        
+
         <div className="container">
           <h2 className="section-title">Skills & Technologies</h2>
 
@@ -553,7 +558,7 @@ export default function PortfolioPage() {
           <div className="section-orb orb-1"></div>
           <div className="section-orb orb-2"></div>
         </div>
-        
+
         <div className="container">
           <h2 className="section-title">My Projects</h2>
           <p className="section-subtitle">A showcase of my recent work and personal projects</p>
@@ -631,11 +636,11 @@ export default function PortfolioPage() {
           <div className="section-orb orb-1"></div>
           <div className="section-orb orb-2"></div>
         </div>
-        
+
         <div className="container">
           <h2 className="section-title">Get In Touch</h2>
           <p className="section-subtitle">
-            I&apos;m always open to discussing new opportunities, interesting projects, 
+            I&apos;m always open to discussing new opportunities, interesting projects,
             or just having a chat about technology.
           </p>
 

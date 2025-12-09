@@ -3,12 +3,12 @@
 import React, { useRef } from 'react';
 import { useThemeStore } from '@/store/theme';
 import { useEditorStore } from '@/store/editor';
-import { 
-  Sun, 
-  Moon, 
-  Minus, 
-  Square, 
-  X, 
+import {
+  Sun,
+  Moon,
+  Minus,
+  Square,
+  X,
   Code2,
   LayoutGrid,
   ArrowLeft,
@@ -29,14 +29,14 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, items }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div 
+    <div
       className="relative"
       style={{ height: '100%', display: 'flex', alignItems: 'center' }}
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button 
-        style={{ 
+      <button
+        style={{
           height: '100%',
           padding: '0 8px',
           fontSize: '13px',
@@ -52,11 +52,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, items }) => {
         {label}
       </button>
       {isOpen && (
-        <div 
+        <div
           className="absolute top-full left-0 min-w-[220px] py-1 rounded shadow-xl z-[200]"
-          style={{ 
-            backgroundColor: 'var(--bg-dropdown)', 
-            border: '1px solid var(--border-color)' 
+          style={{
+            backgroundColor: 'var(--bg-dropdown)',
+            border: '1px solid var(--border-color)'
           }}
         >
           {items.map((item, idx) => (
@@ -147,10 +147,12 @@ export default function TitleBar() {
     {
       label: 'File',
       items: [
-        { label: 'New File', shortcut: 'Ctrl+N', action: () => {
-          const name = prompt('Enter file name:');
-          if (name) { createFile('/src', name); openFile(name); }
-        }},
+        {
+          label: 'New File', shortcut: 'Ctrl+N', action: () => {
+            const name = prompt('Enter file name:');
+            if (name) { createFile('/src', name); openFile(name); }
+          }
+        },
         { label: 'New Window', shortcut: 'Ctrl+Shift+N', action: () => window.open(window.location.href, '_blank') },
         { divider: true },
         { label: 'Open File...', shortcut: 'Ctrl+O', action: () => fileInputRef.current?.click() },
@@ -162,10 +164,12 @@ export default function TitleBar() {
         { label: 'Save', shortcut: 'Ctrl+S', action: () => alert('File saved!') },
         { label: 'Save As...', shortcut: 'Ctrl+Shift+S', action: () => alert('Save As dialog') },
         { divider: true },
-        { label: 'Close Editor', shortcut: 'Ctrl+W', action: () => {
-          const { activeFile, closeFile } = useEditorStore.getState();
-          if (activeFile) closeFile(activeFile);
-        }},
+        {
+          label: 'Close Editor', shortcut: 'Ctrl+W', action: () => {
+            const { activeFile, closeFile } = useEditorStore.getState();
+            if (activeFile) closeFile(activeFile);
+          }
+        },
       ],
     },
     {
@@ -178,10 +182,12 @@ export default function TitleBar() {
         { label: 'Copy', shortcut: 'Ctrl+C', action: () => document.execCommand('copy') },
         { label: 'Paste', shortcut: 'Ctrl+V', action: () => document.execCommand('paste') },
         { divider: true },
-        { label: 'Find', shortcut: 'Ctrl+F', action: () => {
-          const search = prompt('Find:');
-          if (search) (window as unknown as { find: (str: string) => void }).find(search);
-        }},
+        {
+          label: 'Find', shortcut: 'Ctrl+F', action: () => {
+            const search = prompt('Find:');
+            if (search) (window as unknown as { find: (str: string) => void }).find(search);
+          }
+        },
         { label: 'Replace', shortcut: 'Ctrl+H', action: () => alert('Replace dialog') },
         { divider: true },
         { label: 'Command Palette', shortcut: 'Ctrl+Shift+P', action: openCommandPalette },
@@ -265,27 +271,27 @@ export default function TitleBar() {
   return (
     <>
       {/* Hidden file inputs */}
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        className="hidden" 
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
         onChange={handleFileUpload}
         multiple
         accept=".js,.jsx,.ts,.tsx,.json,.md,.css,.html,.py,.sql,.yaml,.yml,.txt"
       />
-      <input 
-        type="file" 
-        ref={folderInputRef} 
-        className="hidden" 
+      <input
+        type="file"
+        ref={folderInputRef}
+        className="hidden"
         onChange={handleFolderUpload}
         multiple
       />
-      
-      <header 
+
+      <header
         className="flex items-center h-[35px] select-none relative"
-        style={{ 
-          backgroundColor: 'var(--bg-titlebar)', 
-          borderBottom: '1px solid var(--border-color)' 
+        style={{
+          backgroundColor: 'var(--bg-titlebar)',
+          borderBottom: '1px solid var(--border-color)'
         }}
       >
         {/* Left - Logo & Menu */}
@@ -294,17 +300,17 @@ export default function TitleBar() {
           <div className="w-12 h-full flex items-center justify-center" style={{ color: 'var(--accent-primary)' }}>
             <Code2 size={18} />
           </div>
-          
+
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden p-2 hover:bg-white/10 rounded"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <Menu size={16} style={{ color: 'var(--text-primary)' }} />
           </button>
-          
+
           {/* Menu Bar */}
-          <nav 
+          <nav
             className="hidden md:flex items-center h-full"
             style={{ display: 'flex', gap: '0px' }}
           >
@@ -312,17 +318,17 @@ export default function TitleBar() {
               <MenuItem key={menu.label} {...menu} />
             ))}
           </nav>
-          
+
           {/* Navigation Arrows */}
           <div className="hidden sm:flex items-center ml-2 gap-0.5">
-            <button 
+            <button
               onClick={() => window.history.back()}
               className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded"
               style={{ color: 'var(--text-muted)' }}
             >
               <ArrowLeft size={16} />
             </button>
-            <button 
+            <button
               onClick={() => window.history.forward()}
               className="w-7 h-7 flex items-center justify-center hover:bg-white/10 rounded"
               style={{ color: 'var(--text-muted)' }}
@@ -334,7 +340,7 @@ export default function TitleBar() {
 
         {/* Center - Search Bar */}
         <div className="flex-1 flex justify-center px-4">
-          <div 
+          <div
             onClick={openCommandPalette}
             className="flex items-center w-full max-w-[400px] h-[26px] px-3 rounded cursor-pointer hover:brightness-110"
             style={{ backgroundColor: 'var(--bg-tertiary)' }}
@@ -346,7 +352,7 @@ export default function TitleBar() {
 
         {/* Right - Actions & Window Controls */}
         <div className="flex items-center h-full ml-auto shrink-0">
-          <button 
+          <button
             onClick={toggleTheme}
             className="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Theme`}
@@ -354,44 +360,44 @@ export default function TitleBar() {
           >
             {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
-          
-          <button 
+
+          <button
             onClick={toggleSidebar}
-            className="hidden sm:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded" 
+            className="hidden sm:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded"
             title="Toggle Sidebar"
             style={{ color: 'var(--text-muted)' }}
           >
             <PanelLeft size={16} />
           </button>
-          
-          <button 
+
+          <button
             onClick={toggleTerminal}
-            className="hidden md:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded" 
+            className="hidden md:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded"
             title="Toggle Terminal"
             style={{ color: 'var(--text-muted)' }}
           >
             <SquareSplitHorizontal size={16} />
           </button>
-          
-          <button 
-            className="hidden lg:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded" 
+
+          <button
+            className="hidden lg:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded"
             title="Toggle Secondary Sidebar"
             style={{ color: 'var(--text-muted)' }}
           >
             <PanelRight size={16} />
           </button>
-          
-          <button 
-            className="hidden lg:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded" 
+
+          <button
+            className="hidden lg:flex w-8 h-8 items-center justify-center hover:bg-white/10 rounded"
             title="Customize Layout"
             style={{ color: 'var(--text-muted)' }}
           >
             <LayoutGrid size={16} />
           </button>
-          
+
           {/* Separator */}
           <div className="hidden sm:block w-px h-4 mx-1" style={{ backgroundColor: 'var(--border-color)' }} />
-          
+
           {/* Window Controls */}
           <button className="w-[46px] h-full flex items-center justify-center hover:bg-white/10" style={{ color: 'var(--text-secondary)' }}>
             <Minus size={16} />
@@ -403,10 +409,10 @@ export default function TitleBar() {
             <X size={16} />
           </button>
         </div>
-        
+
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div 
+          <div
             className="absolute top-full left-0 right-0 shadow-lg z-50 md:hidden max-h-[70vh] overflow-y-auto"
             style={{ backgroundColor: 'var(--bg-dropdown)', borderBottom: '1px solid var(--border-color)' }}
           >
