@@ -135,6 +135,7 @@ export default function IDELayout() {
             {/* Title Bar */}
             <TitleBar />
 
+<<<<<<< HEAD
             {/* Main Content */}
             <main className="flex-1 flex overflow-hidden min-h-0">
                 {/* Activity Bar */}
@@ -190,4 +191,74 @@ export default function IDELayout() {
             />
         </div>
     );
+=======
+  return (
+    <div
+      className={cn(
+        "h-screen w-screen flex flex-col overflow-hidden",
+        theme === 'light' && 'light',
+        antiGravity && 'antigravity-enabled',
+        animations && 'theme-transition'
+      )}
+      style={{ background: 'var(--bg-primary)' }}
+    >
+      {/* Title Bar */}
+      <TitleBar />
+
+      {/* Main Content */}
+      <main className="flex-1 flex overflow-hidden min-h-0">
+        {/* Activity Bar */}
+        <ActivityBar />
+
+        {/* Sidebar */}
+        {sidebarOpen && (
+          <>
+            {isMobile && (
+              <div
+                className="fixed inset-0 bg-black/50 z-30"
+                style={{ top: '35px', bottom: '22px' }}
+                onClick={toggleSidebar}
+              />
+            )}
+            <div className={cn(
+              isMobile && "fixed left-12 top-[35px] bottom-[22px] z-40 shadow-xl"
+            )}>
+              <Sidebar />
+            </div>
+          </>
+        )}
+
+        {/* Editor + Terminal Area */}
+        <div className="flex-1 flex flex-col min-w-0 min-h-0">
+          <div className="flex-1 flex min-h-0 flex-col md:flex-row">
+            <div className={cn(
+              "flex-1 flex flex-col min-w-0",
+              simpleBrowserOpen && !isMobile && "md:w-1/2"
+            )}>
+              <Editor />
+            </div>
+            {simpleBrowserOpen && (
+              <div className={cn(
+                "border-t md:border-t-0 md:border-l",
+                isMobile ? "h-1/2" : "w-1/2"
+              )} style={{ borderColor: 'var(--border-primary)' }}>
+                <SimpleBrowser />
+              </div>
+            )}
+          </div>
+          <Terminal />
+        </div>
+      </main>
+
+      {/* Status Bar */}
+      <StatusBar />
+
+      {/* Command Palette Modal */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+      />
+    </div>
+  );
+>>>>>>> beb9c06b589a8323ac5bd3322ddad3d94f3a8945
 }
